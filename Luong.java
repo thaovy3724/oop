@@ -1,102 +1,72 @@
 import java.util.Scanner;
 
 public class Luong{
+    protected int khauTru, thuong;
+    protected int thanhToan;
+    protected String phuongThucThanhToan;
+    //luong
 
-// Attributes
-// <String> maNV - ma nhan vien - dk: co 8 ki tu   
-// <String> hoTen - ho ten nhan vien - dk: khong bo trong
-// <int> soNgayCong - so ngay lam viec / thang - dk: >=0
-// <int> thucLanh - tong tien luong nhan trong 1 thang - dk: >0
-// <int> mucLuong - muc tien luong / ngay - dk: >0
-    private String maNV, hoTen;
-    private int soNgayCong, mucLuong, thucLanh;
-
-// Constructors
+//constructor
     public Luong(){
-        maNV="";
-        hoTen="";
-        soNgayCong=0;
-        mucLuong=0;
-        thucLanh=0;
-    }
-    public Luong(String maNV, String hoTen, int soNgayCong, int mucLuong){
-        this.maNV=maNV;
-        check_MaNV();
-        this.hoTen=hoTen;
-        check_hoTen();
-        this.soNgayCong=soNgayCong;
-        check_soNgayCong();
-        this.mucLuong=mucLuong;
-        check_mucLuong();
-        thucLanh=mucLuong*soNgayCong;
+        khauTru=0;
+        thuong=0;
+        thanhToan=0;
+        phuongThucThanhToan="";
     }
 
-// Methods
+    public Luong(int khauTru, int thuong, int thanhToan, String phuongThucThanhToan){
+        this.khauTru=khauTru;
+        checkKhauTru();
+        this.thuong=thuong;
+        checkThuong();
+        this.thanhToan=thanhToan;
+        checkThanhToan();
+        this.phuongThucThanhToan=phuongThucThanhToan;
+    }
+
+//nhap
     public void nhap(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Nhap ma nhan vien:");
-        maNV=sc.nextLine();
-        check_MaNV();
-        System.out.println("Nhap ho ten:");
-        hoTen=sc.nextLine();
-        check_hoTen();
-        System.out.println("Nhap so ngay cong:");
-        soNgayCong=sc.nextInt();
-        check_soNgayCong();
-        System.out.println("Nhap muc luong");
-        mucLuong=sc.nextInt();
-        check_mucLuong();
-        thucLanh=mucLuong*soNgayCong;
-    }
+        System.out.println("nhap khau tru:");
+        khauTru=Integer.parseInt(sc.nextLine());
+        checkKhauTru();
+        System.out.println("nhap tien thuong:");
+        thuong=Integer.parseInt(sc.nextLine());
+        checkThuong();
+        System.out.println("nhap so tien da thanh toan:");
+        thanhToan=Integer.parseInt(sc.nextLine());
+        checkThanhToan();
+        System.out.println("nhap phuong thuc thanh toan:");
+        phuongThucThanhToan=sc.nextLine();
+}
 
+//xuat
     public void xuat(){
-        System.out.println("(maNV:"+maNV+";ten:"+hoTen+";songaycong:"+soNgayCong+";mucluong:"+mucLuong+"thuclanh:"+thucLanh+")");
+        System.out.print("khautru:"+khauTru+"; thuong:"+thuong+"; thanhtoan:"+thanhToan+"; pthuc thanh toan:"+phuongThucThanhToan);
     }
 
-    protected void xuat_trongLopCon(){
-        System.out.print("(maNV:"+maNV+";ten:"+hoTen+";songaycong:"+soNgayCong+";mucluong:"+mucLuong+";");
-    }
-    
-// Get - Set
-    // GET
-    public int get_mucLuong(){
-        return mucLuong;
-    }
-    public int get_thucLanh(){
-        return thucLanh;
-    }
-    //SET
-    public void set_thucLanh(int thucLanh){
-        this.thucLanh=thucLanh;
+//kiem tra dieu kien
+    private void checkKhauTru(){
+        Scanner sc = new Scanner(System.in);
+        while(khauTru<0){
+            System.out.println("Can nhap lon hon bang 0 !!!");
+            khauTru=Integer.parseInt(sc.nextLine());
+        }
     }
 
-// Kiem tra dieu kien cua attributes
-    private void check_MaNV(){
+    private void checkThuong(){
         Scanner sc = new Scanner(System.in);
-        while(maNV.length()!=8){
-            System.out.println("Ma nhan vien phai co 8 ki tu !!!");
-            maNV=sc.nextLine();
+        while(thuong<0){
+            System.out.println("Can nhap lon hon bang 0 !!!");
+            thuong=Integer.parseInt(sc.nextLine());
         }
     }
-    private void check_hoTen(){
+
+    private void checkThanhToan(){
         Scanner sc = new Scanner(System.in);
-        while(hoTen.length()==0){
-            System.out.println("Ban can dien ho ten !!!");
-            hoTen=sc.nextLine();
-        }
-    }
-    private void check_soNgayCong(){
-        Scanner sc = new Scanner(System.in);
-        while(soNgayCong<0){
-            System.out.println("So ngay cong phai lon hon hoac bang 0 !!!");
-            soNgayCong=sc.nextInt();
-        }
-    }
-    private void check_mucLuong(){
-        Scanner sc = new Scanner(System.in);
-        while(mucLuong<0){
-            System.out.println("Muc luong phai lon hon hoac bang 0 !!!");
-            mucLuong=sc.nextInt();
+        while(thanhToan<0){
+            System.out.println("Can nhap lon hon bang 0 !!!");
+            thanhToan=Integer.parseInt(sc.nextLine());
         }
     }
 }
