@@ -1,72 +1,83 @@
 import java.util.Scanner;
 
-public class Luong{
-    protected int khauTru, thuong;
-    protected int thanhToan;
-    protected String phuongThucThanhToan;
-    //luong
+public abstract class Luong{
+    public Scanner sc = new Scanner(System.in);
 
+//field
+    protected int thue;
+    protected int thucLanh;
+    protected int thanhToan;
+    
 //constructor
     public Luong(){
-        khauTru=0;
-        thuong=0;
+        thue=0;
+        thucLanh=0;
         thanhToan=0;
-        phuongThucThanhToan="";
     }
 
-    public Luong(int khauTru, int thuong, int thanhToan, String phuongThucThanhToan){
-        this.khauTru=khauTru;
-        checkKhauTru();
-        this.thuong=thuong;
-        checkThuong();
+    public Luong(int thucLanh, int thanhToan){
+        thue=tinhThue();
+        this.thucLanh=thucLanh; 
+        checkThucLanh();
         this.thanhToan=thanhToan;
         checkThanhToan();
-        this.phuongThucThanhToan=phuongThucThanhToan;
     }
 
 //nhap
-    public void nhap(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("nhap khau tru:");
-        khauTru=Integer.parseInt(sc.nextLine());
-        checkKhauTru();
-        System.out.println("nhap tien thuong:");
-        thuong=Integer.parseInt(sc.nextLine());
-        checkThuong();
-        System.out.println("nhap so tien da thanh toan:");
+    protected void nhap(){
+        thue=tinhThue();
+        thucLanh=tongLuong();
+        System.out.print("Nhap so tien da thanh toan: ");
         thanhToan=Integer.parseInt(sc.nextLine());
         checkThanhToan();
-        System.out.println("nhap phuong thuc thanh toan:");
-        phuongThucThanhToan=sc.nextLine();
-}
+    }
 
 //xuat
-    public void xuat(){
-        System.out.print("khautru:"+khauTru+"; thuong:"+thuong+"; thanhtoan:"+thanhToan+"; pthuc thanh toan:"+phuongThucThanhToan);
+    protected void xuat(){
+        System.out.println("; thue: "+thue+"; thucLanh: "+thucLanh+"; thanhToan: "+thanhToan+"]");
     }
 
+//cac ham abstract
+    protected abstract int tongLuong();
+    protected abstract int tinhThue();
 //kiem tra dieu kien
-    private void checkKhauTru(){
-        Scanner sc = new Scanner(System.in);
-        while(khauTru<0){
+    protected void checkThucLanh(){
+        while(thucLanh<0){
             System.out.println("Can nhap lon hon bang 0 !!!");
-            khauTru=Integer.parseInt(sc.nextLine());
+            System.out.print("Nhap lai thuc lanh: ");
+            thucLanh=Integer.parseInt(sc.nextLine());
         }
     }
 
-    private void checkThuong(){
-        Scanner sc = new Scanner(System.in);
-        while(thuong<0){
-            System.out.println("Can nhap lon hon bang 0 !!!");
-            thuong=Integer.parseInt(sc.nextLine());
-        }
-    }
-
-    private void checkThanhToan(){
-        Scanner sc = new Scanner(System.in);
+    protected void checkThanhToan(){
         while(thanhToan<0){
             System.out.println("Can nhap lon hon bang 0 !!!");
+            System.out.print("Nhap lai thanh toan: ");
             thanhToan=Integer.parseInt(sc.nextLine());
         }
+        while(thanhToan>tongLuong()){
+            System.out.println("Thanh toan nhieu hon tong luong");
+            System.out.print("Nhap lai thanh toan: ");
+            thanhToan=Integer.parseInt(sc.nextLine());
+        }
+    }
+
+//get - set
+    public abstract String getTen();
+
+    public int getThanhToan(){
+        return thanhToan;
+    }
+
+    public int getThucLanh(){
+        return thucLanh;
+    }
+
+    public abstract void setTen();
+
+    public void setThanhToan(){
+        System.out.print("Nhap so tien thanh toan: ");
+        thanhToan = Integer.parseInt(sc.nextLine());
+        checkThanhToan();
     }
 }
