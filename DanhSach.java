@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 abstract public class DanhSach {
     //static int soluong; //update so luong danh sach // arraylist.length nen co the bo field nay
@@ -44,7 +43,6 @@ abstract public class DanhSach {
 
     abstract protected int menuTim();  //tra ve lua chon cua user
     abstract public void tim();
-    T
 //xoa
 //         override xoa():
 //              ** tim doi tuong can xoa **

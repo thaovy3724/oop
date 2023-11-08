@@ -12,6 +12,34 @@ public class DanhSachLuong {
         danhSachLuong=new ArrayList<Luong>();
     }
 
+    public DanhSachLuong(ArrayList<Luong> danhSachLuong){
+        this.danhSachLuong=danhSachLuong;
+    }
+
+//Menu CRUD
+    public void menu(){
+        int luachon;
+        do{
+        System.out.println("1.Them");
+        System.out.println("2.Tim kiem");
+        System.out.println("3.Xoa");
+        System.out.println("4.Sua");
+        System.out.println("5.Xuat");
+        System.out.println("Nhap so khac de thoat !!!");
+        System.out.print("Nhap lua chon: ");
+        luachon=Integer.parseInt(sc.nextLine());
+        switch(luachon){
+            case 1: them(); break;
+            case 2: tim(); break;
+            case 3: xoa(); break;
+            case 4: sua(); break;
+            case 5: xuat(); break;
+        }
+        if(luachon<1 || luachon>5)
+            System.out.println("***Thoat danh sach luong***");
+        }
+        while(luachon>=1 && luachon<=5);
+    }
 //xuat
     public void xuat(){
         if(danhSachLuong.size()==0)
@@ -27,24 +55,29 @@ public class DanhSachLuong {
 
 //them
     public void them(){
-        //cho user chon loai luong muon them
+        //cho user chon so luong bang luong muon them
+        System.out.println("Nhap so luong bang luong muon them:");
+        int n = Integer.parseInt(sc.nextLine());
         int luachon;
-        do{
-            System.out.println("Nhap bang luong cua loai nhan vien muon them");
-            System.out.println("1.Nhan vien chinh thuc");
-            System.out.println("2.Nhan vien thoi vu");
-            luachon=Integer.parseInt(sc.nextLine());
-        }
-        while(luachon!=1 && luachon!=2);
-        if(luachon==1){
-            LuongChinhThuc l = new LuongChinhThuc();
-            l.nhap();
-            danhSachLuong.add(l);
-        }
-        else if(luachon==2){
-            LuongThoiVu l = new LuongThoiVu();
-            l.nhap();
-            danhSachLuong.add(l);
+        for(int i=0; i<n; i++){
+        //cho user chon loai luong muon them
+            do{
+                System.out.println("Nhap bang luong cua loai nhan vien muon them");
+                System.out.println("1.Nhan vien chinh thuc");
+                System.out.println("2.Nhan vien thoi vu");
+                luachon=Integer.parseInt(sc.nextLine());
+            }
+            while(luachon!=1 && luachon!=2); //kiem tra dieu kien nhap
+            if(luachon==1){
+                LuongChinhThuc l = new LuongChinhThuc();
+                l.nhap();
+                danhSachLuong.add(l);
+            }
+            else if(luachon==2){
+                LuongThoiVu l = new LuongThoiVu();
+                l.nhap();
+                danhSachLuong.add(l);
+            }
         }
     }
 
@@ -62,6 +95,7 @@ public class DanhSachLuong {
         System.out.println("3.Tim theo tien thuc lanh");
         System.out.println("4.Tim theo so tien da thanh toan");
         System.out.println("Nhap so khac de thoat!!!");
+        System.out.print("Nhap lua chon: ");
         luachon = Integer.parseInt(sc.nextLine());
         }
         return luachon;
@@ -80,7 +114,7 @@ public class DanhSachLuong {
                 case 4: kq = timThanhToan(); break;
             }
             if(luachon <1 || luachon>4){
-                System.out.println("****Hen gap lai****");
+                System.out.println("***Thoat***");
             }
             //kiem tra mang ket qua co rong khong
             else{
@@ -181,6 +215,7 @@ public class DanhSachLuong {
                 kq.add(l);
         return kq;
     }
+
 //xoa
 public void xoa(){
     int luachon;
@@ -231,70 +266,73 @@ public void xoa(){
         }
 
         //kiem tra mang ket qua co rong khong
-        if(kq.size()==0)
-            System.out.println("Khong tim thay bang luong can sua!!!");
-        else{
-            //tim thay
-            //xuat ket qua
-            System.out.println("Ket qua tim kiem :");
-            int i = 0;
-            for(Luong l : kq){
-                System.out.print((i++)+". "); l.xuat();
-                System.out.println("========================");
-            }
-            //sua
-            //chon thu tu cua nhan vien can sua
-            int stt;
-            do{
-                System.out.println("Chon STT cua nhan vien muon sua");
-                stt = Integer.parseInt(sc.nextLine());
-            }
-            while(stt<0 || stt>=kq.size());
-            
-            //***nhap lua chon thong tin muon sua***
-            int sua;
-            Luong l = kq.get(stt);
-            do{
-            //menu thong tin can sua
-            System.out.println("========MENU SUA========");
-            System.out.println("1.Ho ten");
-            if(l instanceof LuongChinhThuc){
-                System.out.println("2.So ngay cong");
-                System.out.println("3.Muc luong theo ngay");
-            }
-            else if(l instanceof LuongThoiVu){
-                System.out.println("2.So gio lam");
-                System.out.println("3.Muc luong theo gio");
-            }
-            System.out.println("4.Thanh toan");
-            System.out.println("Nhap so khac de thoat !!!");
-            //nhap lua chon
-            System.out.println("Nhap lua chon thong tin can sua:");
-            sua = Integer.parseInt(sc.nextLine());
-            //goi cac ham sua
-            if(sua>=1 && sua<=4){
-                switch(sua){
-                    case 1: l.setTen(); break;
-                    case 2: 
-                        if(l instanceof LuongChinhThuc)
-                            suaSoNgayCong((LuongChinhThuc) l);
-                        else if(l instanceof LuongThoiVu)
-                            suaSoGio((LuongThoiVu) l);
-                        break;
-                    case 3:
-                        if(l instanceof LuongChinhThuc)
-                            suaMucLuongTheoNgay((LuongChinhThuc) l);
-                        else if(l instanceof LuongThoiVu){
-                            suaMucLuongTheoGio((LuongThoiVu) l);
-                        }
-                        break;
-                    case 4: l.setThanhToan(); break;
+        if(luachon>=1 && luachon<=4){
+            if(kq.size()==0)
+                System.out.println("Khong tim thay bang luong can sua!!!");
+            else{
+                //tim thay
+                //xuat ket qua
+                System.out.println("Ket qua tim kiem :");
+                int i = 0;
+                for(Luong l : kq){
+                    System.out.print((i++)+". "); l.xuat();
+                    System.out.println("========================");
                 }
-                System.out.println("Hien thi sau khi cap nhat:");
-                l.xuat();
+                //sua
+                //chon thu tu cua nhan vien can sua
+                int stt;
+                do{
+                    System.out.println("Chon STT cua nhan vien muon sua");
+                    stt = Integer.parseInt(sc.nextLine());
+                }
+                while(stt<0 || stt>=kq.size());
+                
+                //***nhap lua chon thong tin muon sua***
+                int sua;
+                Luong l = kq.get(stt);
+                do{
+                //menu thong tin can sua
+                System.out.println("========MENU SUA========");
+                System.out.println("1.Ho ten");
+                if(l instanceof LuongChinhThuc){
+                    System.out.println("2.So ngay cong");
+                    System.out.println("3.Muc luong theo ngay");
+                }
+                else if(l instanceof LuongThoiVu){
+                    System.out.println("2.So gio lam");
+                    System.out.println("3.Muc luong theo gio");
+                }
+                System.out.println("4.Thanh toan");
+                System.out.println("Nhap so khac de thoat !!!");
+                //nhap lua chon
+                System.out.print("Nhap lua chon:");
+                sua = Integer.parseInt(sc.nextLine());
+                //goi cac ham sua
+                if(sua>=1 && sua<=4){
+                    switch(sua){
+                        case 1: l.setTen(); break;
+                        case 2: 
+                            if(l instanceof LuongChinhThuc)
+                                suaSoNgayCong((LuongChinhThuc) l);
+                            else if(l instanceof LuongThoiVu)
+                                suaSoGio((LuongThoiVu) l);
+                            break;
+                        case 3:
+                            if(l instanceof LuongChinhThuc)
+                                suaMucLuongTheoNgay((LuongChinhThuc) l);
+                            else if(l instanceof LuongThoiVu){
+                                suaMucLuongTheoGio((LuongThoiVu) l);
+                            }
+                            break;
+                        case 4: l.setThanhToan(); break;
+                    }
+                    System.out.println("Hien thi sau khi cap nhat:");
+                    l.xuat();
+                }
+                else System.out.println("***Thoat***");
+                }
+                while(sua>=1 && sua<=4);
             }
-            }
-            while(sua>=1 && sua<=4);
         }
     }
         while(luachon>=1 && luachon<=4);
@@ -308,6 +346,8 @@ public void xoa(){
         }
         while(ngay<0);
         l.nv.setSoNgay(ngay);
+        l.thue=l.tinhThue();
+        l.thucLanh=l.tongLuong();
     }
 
     private void suaMucLuongTheoNgay(LuongChinhThuc l){
@@ -318,6 +358,8 @@ public void xoa(){
         }
         while(mucLuong<0);
         l.nv.setMucLuongTheoNgay(mucLuong);
+        l.thue=l.tinhThue();
+        l.thucLanh=l.tongLuong();
     }
 
     private void suaSoGio(LuongThoiVu l){
@@ -328,6 +370,8 @@ public void xoa(){
         }
         while(gio<0 || gio>24);
         l.nv.setSoGio(gio);
+        l.thue=l.tinhThue();
+        l.thucLanh=l.tongLuong();
     }
 
     private void suaMucLuongTheoGio(LuongThoiVu l){
@@ -338,5 +382,7 @@ public void xoa(){
         }
         while(mucLuong<0);
         l.nv.setMucLuongTheoGio(mucLuong);
+        l.thue=l.tinhThue();
+        l.thucLanh=l.tongLuong();
     }
 }

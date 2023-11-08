@@ -37,7 +37,7 @@ public class LuongThoiVu extends Luong{
     }
 
     @Override protected int tinhThue(){
-        return (int)nv.getMucLuong()*8/100;
+        return nv.getSoGio()*nv.getMucLuongTheoGio()*8/100;
     }
 //kiem tra dieu kien
     private void checkThuong(){

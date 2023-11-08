@@ -33,11 +33,11 @@ public class LuongChinhThuc extends Luong{
 
 //override abstract method
     @Override protected int tongLuong(){
-        return nv.getMucLuongTheoNgay()*nv.getSoNgay()+tienTangCa-thue;
+        return nv.getMucLuongTheoNgay()*nv.getSoNgay()+tienTangCa-thue; //base + bonus - tax
     }
 
     @Override protected int tinhThue(){
-        return (int)nv.getMucLuong()*8/100;
+        return nv.getMucLuongTheoNgay()*nv.getSoNgay()*8/100;
     }
 
 //kiem tra dieu kien
