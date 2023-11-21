@@ -1,35 +1,23 @@
 
 public class NhanVienChinhThuc extends NhanVien{
 	//Các thuộc tính mới
-	private int soNgay;
-	private int mucLuongTheoNgay;
+	private double tienBaoHiem;
 	
 	//Các hàm get và set mới
 		//*** Các hàm get ***
-	public int getSoNgay() {
-		return soNgay;
-	}
-	public int getMucLuongTheoNgay() {
-		return mucLuongTheoNgay;
+	public double getTienBaoHiem() {
+		return tienBaoHiem;
 	}
 	
 		//*** Các hàm set ***
-	public void setSoNgay(int newSoNgay) {
-		soNgay = newSoNgay;
-		tinhLuong();
-	}
-	public void setMucLuongTheoNgay(int newMucLuongTheoNgay) {
-		mucLuongTheoNgay = newMucLuongTheoNgay;
-		tinhLuong();
+	public void setTienBaoHiem(double newTienBaoHiem) {
+		if (tienBaoHiemKhongHopLe(newTienBaoHiem)) return;
+		tienBaoHiem = newTienBaoHiem;
 	}
 	
 	//Các hàm điều kiện
-	private boolean soNgayKhongHopLe(int newSoNgay) {
-		if(newSoNgay < 0) return true;
-		return false;
-	}
-	private boolean mucLuongTheoNgayKhongHopLe(int newMucLuongTheoNgay) {
-		if(newMucLuongTheoNgay < 0) return true;
+	private boolean tienBaoHiemKhongHopLe(double newTienBaoHiem) {
+		if(newTienBaoHiem < 0) return true;
 		return false;
 	}
 	
@@ -37,67 +25,48 @@ public class NhanVienChinhThuc extends NhanVien{
 		//*** Constructor không tham số ***
 	public NhanVienChinhThuc() {
 		super();
-		soNgay = 0;
-		mucLuongTheoNgay = 0;
+		tienBaoHiem = 0;
 	}
 	
 		//*** Constructor có tham số ***
-	public NhanVienChinhThuc(String newHo, String newTen, int newNgaySinh, int newThangSinh, int newNamSinh, 
-			String newGioiTinh, String newMaSo, String newMaPhongBan, int newSoNgay, int newMucLuongTheoNgay) {
-		super(newHo, newTen, newNgaySinh, newThangSinh, newNamSinh, newGioiTinh, newMaSo, newMaPhongBan);
-		soNgay = newSoNgay;
-		if(soNgayKhongHopLe(soNgay)) soNgay = 0;
-		mucLuongTheoNgay = newMucLuongTheoNgay;
-		if(mucLuongTheoNgayKhongHopLe(mucLuongTheoNgay)) mucLuongTheoNgay = 0;
-	}
-	
-	//Hàm tính lương
-	@Override public void tinhLuong() {
-		setMucLuong(soNgay * mucLuongTheoNgay);
+	public NhanVienChinhThuc(String newHo, String newTen, String newNgaySinh, 
+			int newId, String newMaPhongBan, double newTienBaoHiem) {
+		super(newHo, newTen, newNgaySinh, newId, newMaPhongBan);
+		tienBaoHiem = newTienBaoHiem;
+		if(tienBaoHiemKhongHopLe(tienBaoHiem)) tienBaoHiem = 0;
 	}
 	
 	//Các hàm nhập và xuất
 			//*** Hàm nhập ***
 		
 				//***** Các hàm nhập thành phần mới *****
-	public void nhapSoNgay() {
-		int newSoNgay;
-		do {
-			System.out.print("Nhap so ngay lam: ");
-			newSoNgay = Integer.parseInt(scan.nextLine());
-		} while(soNgayKhongHopLe(newSoNgay));
-		soNgay = newSoNgay;
-	}
-	public void nhapMucLuongTheoNgay() {
-		int newMucLuongTheoNgay;
-		do {
-			System.out.print("Nhap muc luong theo ngay: ");
-			newMucLuongTheoNgay = Integer.parseInt(scan.nextLine());
-		} while(mucLuongTheoNgayKhongHopLe(mucLuongTheoNgay));
-		mucLuongTheoNgay = newMucLuongTheoNgay;
+	public void nhapTienBaoHiem() {
+		double newTienBaoHiem;
+		System.out.print("Nhap tien bao hiem: ");
+		newTienBaoHiem = Double.parseDouble(scan.nextLine());
+		while(tienBaoHiemKhongHopLe(newTienBaoHiem)) {
+			System.out.println("Tien bao hiem khong hop le!! (Phai lon hon 0)");
+			System.out.print("Nhap tien bao hiem: ");
+			newTienBaoHiem = Double.parseDouble(scan.nextLine());
+		}
+		tienBaoHiem = newTienBaoHiem;
 	}
 	
 				//***** Hàm nhập tổng hợp *****
 	@Override public void nhap() {
 		super.nhap();
-		nhapSoNgay();
-		nhapMucLuongTheoNgay();
-		tinhLuong();
+		nhapTienBaoHiem();
 	}
 			//*** Hàm xuất ***
 	
 				//***** Các hàm xuất thành phần mới *****
-	public void xuatSoNgay() {
-		System.out.println("So ngay lam: "+soNgay);
-	}
-	public void xuatMucLuongTheoNgay() {
-		System.out.println("Muc luong theo ngay: "+mucLuongTheoNgay);
+	public void xuatTienBaoHiem() {
+		System.out.println("Tien bao hiem: "+tienBaoHiem);
 	}
 	
 				//*** Hàm xuất tổng hợp ***
 	@Override public void xuat() {
 		super.xuat();
-		xuatSoNgay();
-		xuatMucLuongTheoNgay();
+		xuatTienBaoHiem();
 	}
 }

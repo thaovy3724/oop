@@ -1,49 +1,44 @@
 import java.util.Scanner;
-
 public class QuanLyNhanSu {
     Scanner sc = new Scanner(System.in);
+    private DanhSachNhanVien dsnv;
+    private DanhSachBangLuong dsbl;
+    //private DanhSachDuAn dsda;
+    //private DanhSachPhongBan dspb;
 
-    //menu chon loai doi tuong
-    public int menuDoiTuong(){
-        int luachon;
-        System.out.println("=====MENU DOI TUONG======");
-        System.out.println("Chon loai doi tuong can quan ly");
-        System.out.println("1.Nhan vien");
-        System.out.println("2.Bang luong");
-        System.out.println("3.Phong ban");
-        System.out.println("4.Du an");
-        System.out.println("Nhap so khac de thoat!!!");
-        luachon = Integer.parseInt(sc.nextLine());
-        return luachon;
+    public QuanLyNhanSu(){
+        dsnv=new DanhSachNhanVien();
+        dsbl=new DanhSachBangLuong();
+        //dsda=new DanhSachDuAn();
+        //dspb=new DanhSachPhongBan();
     }
 
-    public void thaoTac(){
+    public QuanLyNhanSu(DanhSachNhanVien dsnv, DanhSachBangLuong dsbl){
+        this.dsnv=dsnv;
+        this.dsbl=dsbl;
+        //this.dsda=dsda;
+        //this.dspb=dspb;
+    }
+
+    public void menuQuanLy(){
         int luachon;
         do{
-            luachon = menuDoiTuong();
-            switch (luachon){
-                case 1: ; break;
-                case 2: kq = timLoaiLuong(); break;
-                case 3: kq = timThucLanh(); break;
-                case 4: kq = timThanhToan(); break;
-            }
-            if(luachon <1 || luachon>4){
-                System.out.println("****Hen gap lai****");
-            }
-            //kiem tra mang ket qua co rong khong
-            else{
-                if(kq.size()==0)
-                    System.out.println("Khong tim thay!!!");
-                else{
-                    //xuat ket qua
-                    System.out.println("Ket qua tim kiem :");
-                    for(Luong l : kq){
-                        l.xuat();
-                        System.out.println("========================");
-                    }
-                }
-            }
+        System.out.println("====QUAN LY NHAN SU===");
+        System.out.println("Chon doi tuong can quan ly:");
+        System.out.println("1.Nhan vien");
+        System.out.println("2.Bang luong cua nhan vien");
+        System.out.println("3.Phong ban");
+        System.out.println("4.Du an");
+        System.out.println("Nhap so khac de thoat");
+        System.out.print("Nhap lua chon: ");
+        luachon=Integer.parseInt(sc.nextLine());
+        switch(luachon){
+            //case 1: dsnv.menu(); break;
+            case 2: dsbl.menu(); break;
+            //case 3: dspb.menu(); break;
+            //case 4: dsda.menu(); break;
+            default: System.out.println("***Hen gap lai***");
         }
-        while(luachon>=1 && luachon<=4);
+        }while(luachon>=1 && luachon<=4);
     }
 }

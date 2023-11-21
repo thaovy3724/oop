@@ -1,23 +1,25 @@
-
-abstract public class DanhSach {
+import java.util.ArrayList;
+interface DanhSach<T> {
     //static int soluong; //update so luong danh sach // arraylist.length nen co the bo field nay
+//menu
+    //public void menu();
 //xuat
 //      trong lop con override xuat():
 //      printout("xuat danh sach <ten danh sach>")
 //      duyet qua phan tu cua mang
-    abstract public void xuat();
+    public void xuat();
 
 //them
 //      tao doi tuong can them -> goi ham nhap cua doi tuong
 //      add bien moi vao danh sach -->arraylist.add(doituong)
 //      update soluong // arraylist.length nen co the bo field nay
-    abstract public void them();    
+    public void them();    
 
 //timkiem
 //      ** lop con override menuTim(): list cac tieu chi tim kiem **
 //              cho nguoi dung lua chon tim kiem theo tieu chi nao
 //      (VD: DS nhanvien:
-//          public int menuTim(){
+//            public int menuTim(){
 //              int luachon;
 //              nhanvien nv;
 //              printout("1. tim theo ten nhan vien")
@@ -41,8 +43,8 @@ abstract public class DanhSach {
 //              ** xuat kq tim kiem **:  goi lai method xuat cua doi tuong: nv.xuat();
 //          }
 
-    abstract protected int menuTim();  //tra ve lua chon cua user
-    abstract public void tim();
+    public int menuTim();  //tra ve lua chon cua user
+    public void tim();
 //xoa
 //         override xoa():
 //              ** tim doi tuong can xoa **
@@ -56,7 +58,7 @@ abstract public class DanhSach {
 //              ** xuat thong tin truoc khi xoa **: nv.xuat();
 //              ** xoa doi tuong khoi danh sach **:  DanhsachNhanvien.remove(nv)
 //          update soluong //arraylist.length nen co the bo field nay
-    abstract public void xoa();
+    public void xoa();
 
 //sua
 //         override sua():
@@ -71,5 +73,8 @@ abstract public class DanhSach {
 //              ** xuat thong tin truoc khi sua **: nv.xuat();
 //              ** menu nd can sua **: tuong tu menuTim
 //              switch case ... -> goi cac ham set cua doi tuong 
-    abstract public void sua();
+    public void sua();
+
+    public ArrayList<T> docFile();
+    public void ghiFile(ArrayList<T> object);
 }
