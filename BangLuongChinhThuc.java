@@ -47,7 +47,9 @@ public class BangLuongChinhThuc extends BangLuong{
         @Override public void xuat(){
             //xuat nhan vien trong class danh sach noi vo cho nay
             super.getNhanVien().xuat();
-            System.out.print("; so ngay cong: "+soNgay+"; luong theo ngay: "+mucLuongTheoNgay+"; tien tang ca: "+tienTangCa);
+            System.out.print("so ngay cong: "+soNgay);
+            System.out.println("luong theo ngay: "+mucLuongTheoNgay);
+            System.out.println("tien tang ca: "+tienTangCa);
             super.xuat();
         }
     

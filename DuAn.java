@@ -38,10 +38,12 @@ public class DuAn {
 	 	
 		System.out.print("Nhap loi nhuan: "); //Lợi nhuận có thể âm, = 0, > 0 nên ko kt điều kiện
 	 	loiNhuan = Double.parseDouble(sc.nextLine());
+
 	 	do{
 	 	System.out.print("Nhap ngan sach: ");
 	 	nganSach = Double.parseDouble(sc.nextLine());
 		} while(checkNganSach());
+		
         maDuAn = idMDA++;
 	}
 	
@@ -91,4 +93,3 @@ public class DuAn {
 		return false;
 	}
 }
-

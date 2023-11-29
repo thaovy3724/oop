@@ -43,7 +43,9 @@ public abstract class BangLuong{
 
 //xuat
     public void xuat(){
-        System.out.println("; thue: "+thue+"; thucLanh: "+thucLanh+"; thanhToan: "+thanhToan);
+        System.out.println("thue: "+thue);
+        System.out.println("thucLanh: "+thucLanh);
+        System.out.println("thanhToan: "+thanhToan);
     }
 
 //cac ham abstract
