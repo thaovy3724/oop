@@ -35,6 +35,7 @@ public abstract class BangLuong{
     public void nhap(){
         thue=tinhThue();
         thucLanh=tongLuong();
+        System.out.println("Thuc lanh: "+thucLanh);
         do{
         System.out.print("Nhap so tien da thanh toan: ");
         thanhToan=Double.parseDouble(sc.nextLine());

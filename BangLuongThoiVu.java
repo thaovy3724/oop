@@ -78,8 +78,8 @@ public class BangLuongThoiVu extends BangLuong{
         }
     
         public boolean checkMucLuongTheoGio(){
-            if(mucLuongTheoGio<0){
-                System.out.println("Can nhap lon hon bang 0 !!!");
+            if(mucLuongTheoGio<=0){
+                System.out.println("Can nhap lon hon 0 !!!");
                 return true;
             }
             return false;

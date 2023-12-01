@@ -80,8 +80,8 @@ public class BangLuongChinhThuc extends BangLuong{
         }
     
         public boolean checkMucLuongTheoNgay(){
-            if(mucLuongTheoNgay<0){
-                System.out.println("Can nhap lon hon bang 0");
+            if(mucLuongTheoNgay<=0){
+                System.out.println("Can nhap lon hon 0");
                 return true;
             }
             return false;

@@ -19,10 +19,19 @@ public class DanhSachDuAn implements DanhSach{
 		this.ds = ds;
 	}
 
+//get va set dsDUAn
+public ArrayList<DuAn> getDanhSachDuAn(){
+	return ds;
+}
+
+public void setDanhSachDuAn(ArrayList<DuAn> ds) {
+	this.ds = ds;
+}
+
 //doc file
 public void docFile() {
 	try {
-		BufferedReader input = new BufferedReader(new FileReader("duan.txt"));
+		BufferedReader input = new BufferedReader(new FileReader("dataDA.txt"));
 		String line = input.readLine();
 		DuAn da= new DuAn(); 
 		while(line!=null) {
@@ -59,7 +68,7 @@ public void docFile() {
 //ghi file
 		public void ghiFile() {
 				try {
-					FileWriter f = new FileWriter("duan.txt");
+					FileWriter f = new FileWriter("dataDA.txt");
 					String s = new String();
 					for(DuAn da : ds) {
 						if(da instanceof DuAnCaNhan) {   
@@ -88,7 +97,7 @@ public void docFile() {
 					}
 					f.close();
 					//note
-					System.out.println("Da ghi du lieu vao file theo duong dan: "+f);
+					//System.out.println("Da ghi du lieu vao file theo duong dan: "+f);
 				}catch (Exception e) {
 					System.out.println(e);
 				}
@@ -156,6 +165,7 @@ public void docFile() {
 			System.out.println("2. Du an phong ban ");
 			System.out.print("Nhap lua chon: ");
 			luachon = Integer.parseInt(sc.nextLine());
+			if(luachon!=1 && luachon!=2) System.out.println("Lua chon khong hop le!");
 		}
 		while(luachon!=1 && luachon!=2); // khi lua chon khac 1 va 2 thi lam lai
 		int stt;
@@ -172,8 +182,7 @@ public void docFile() {
 			do{
 			System.out.print("Chon so thu tu cua nhan vien: ");
 			stt=Integer.parseInt(sc.nextLine());
-			if(stt<0 || stt>=dsNhanVien.size())
-				System.out.println("Nhap sai so thu tu!!!");
+			if(stt<0 || stt>=dsNhanVien.size()) System.out.println("STT khong hop le!");
 			} while(stt<0 || stt>=dsNhanVien.size());
 			a.nhap(dsNhanVien.get(stt));
 			ds.add(a);
@@ -185,14 +194,16 @@ public void docFile() {
 			System.out.println("Danh sach phong ban :");
 			int i = 0;
 			for(PhongBan pb : dsPhongBan){
-				System.out.println((i++)+". "); pb.xuat();
+				System.out.println((i++)+". ");
+				System.out.println("ma phong: "+pb.getMaphong());
+				System.out.println("ten phong: "+pb.getTenphong());
            		System.out.println("------------------------");
 			}
 			do{
 				System.out.print("Chon so thu tu cua phong ban: ");
 				stt=Integer.parseInt(sc.nextLine());
 				if(stt<0 || stt>=dsPhongBan. size())
-					System.out.println("Nhap sai so thu tu!!!");
+					System.out.println("STT khong hop le!");
 			} while(stt<0 || stt>=dsPhongBan.size());
 			a.nhap(dsPhongBan.get(stt).getMaphong(), dsPhongBan.get(stt).getTenphong());
 			ds.add(a);
@@ -231,12 +242,10 @@ public void docFile() {
 				case 2: kq = timTenPhongBan(); break;
 				case 3: kq = timTenNhanVien(); break;
 				case 4: kq = timLoiNhuan(); break;
+				default: System.out.println("---Thoat---"); break;
 			}
-			if(luachon <1 || luachon>4){
-				System.out.println("---Thoat---");
-			}
+			if(luachon >=1 && luachon<=4){
 			//kiem tra mang ket qua co rong khong
-			else{
 				if(kq.size()==0)
 					System.out.println("Khong tim thay!!!");
 				else{
@@ -255,12 +264,13 @@ public void docFile() {
 	// Tim theo ten du an
 	private ArrayList<DuAn> timTenDuAn() { 
 		ArrayList<DuAn> kq = new ArrayList<DuAn>();
-		System.out.print("Nhap ten du an can tim: ");
-		String tenCanTim = sc.nextLine();
-		String ten;
+		String tenCanTim;
+		do{
+			System.out.print("Nhap ten du an can tim: ");
+			tenCanTim = sc.nextLine();
+		}while(DuAn.checkTenDuAn(tenCanTim));
 		for(DuAn a : ds) {
-			ten = a.getTenDuAn();
-			if(ten.equalsIgnoreCase(tenCanTim)) {  
+			if(a.getTenDuAn().equalsIgnoreCase(tenCanTim)) {  
 				kq.add(a);
 			}
 		}
@@ -409,23 +419,32 @@ public void docFile() {
 						else{
 						switch(sua) {
 						case 1:
-							System.out.print("Nhap ten du an moi: ");
-							String tenDuAn = sc.nextLine();
+							String tenDuAn;
+							do{
+								System.out.print("Nhap ten du an moi: ");
+								tenDuAn = sc.nextLine();
+							} while(DuAn.checkTenDuAn(tenDuAn));
 							da.setTenDuAn(tenDuAn);
+							break;
 						case 2:
 							System.out.print("Nhap loi nhuan moi: ");
 							Double loiNhuan = Double.parseDouble(sc.nextLine());
 							da.setLoiNhuan(loiNhuan);
+							break;
 						case 3:
-							System.out.print("Nhap ngan sach moi: ");
-							Double nganSach = Double.parseDouble(sc.nextLine());
+							Double nganSach;
+							do{
+								System.out.print("Nhap ngan sach moi: ");
+								nganSach = Double.parseDouble(sc.nextLine());
+							} while(nganSach<=0);
 							da.setNganSach(nganSach);
+							break;
 						}
 						System.out.println("Hien thi sau khi sua: ");
 						da.xuat(); // pt xuat ben class du an
 					}
 					}
-					while(sua>=1 && sua<=4);
+					while(sua>=1 && sua<=3);
 				}
 			}
 		}while(luachon>=1 && luachon<=4);
@@ -439,7 +458,8 @@ public void docFile() {
 				duyet qua nhan vien = idcanxoa ->remove + cap nhat so luong nhan vien
 				*/
 			
-	public void xoaNhanVien(int idCanXoa){
+	public void xoaNhanVien(NhanVien nvCanXoa){
+		int idCanXoa = nvCanXoa.getID();
 		DuAnCaNhan da;
 		for(int i=0; i<ds.size(); i++)
 			if(ds.get(i) instanceof DuAnCaNhan){
