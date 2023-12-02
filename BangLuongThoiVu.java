@@ -46,7 +46,7 @@ public class BangLuongThoiVu extends BangLuong{
     //xuat
         @Override public void xuat(){
             super.getNhanVien().xuat();
-            System.out.print("so gio lam: "+soGio);
+            System.out.println("so gio lam: "+soGio);
             System.out.println("luong theo gio: "+mucLuongTheoGio);
             System.out.println("tien thuong: "+tienThuong);
             super.xuat();
