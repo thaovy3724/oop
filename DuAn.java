@@ -44,7 +44,7 @@ public class DuAn {
 	 	do{
 			System.out.print("Nhap ngan sach: ");
 			nganSach = Double.parseDouble(sc.nextLine());
-		} while(checkNganSach());
+		} while(checkNganSach(nganSach));
 		
         maDuAn = idMDA++;
 	}
@@ -86,7 +86,7 @@ public class DuAn {
 	//Kt điều kiện
 	
 	// ĐK ngân sách > 0
-	public boolean checkNganSach() {
+	public boolean checkNganSach(double nganSach) {
 		if(nganSach<=0){
 			System.out.println("Can nhap lon hon 0 !!!");
 			return true;
@@ -105,4 +105,12 @@ public class DuAn {
 		}
 		return false;
     }
+	//note
+	public static boolean checkMaPhongBan(int id) {
+		if(id<=1000 || id>9999){
+			System.out.println("Ma phong ban co 4 chu so");
+			return true;
+		} 
+		return false;
+	}
 }

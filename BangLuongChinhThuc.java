@@ -29,17 +29,17 @@ public class BangLuongChinhThuc extends BangLuong{
     //nhap
         @Override public void nhap(){
             do{
-            System.out.print("Nhap tien tang ca: ");
-            tienTangCa=Double.parseDouble(sc.nextLine());
-            } while(checkTienTangCa());
-            do{
                 System.out.print("Nhap so ngay lam: ");
                 soNgay = Integer.parseInt(sc.nextLine());
-            } while(checkSoNgayLam());
+            } while(checkSoNgayLam(soNgay));
             do{
                 System.out.print("Nhap muc luong theo ngay: ");
                 mucLuongTheoNgay=Double.parseDouble(sc.nextLine());
-            }while(checkMucLuongTheoNgay());
+            }while(checkMucLuongTheoNgay(mucLuongTheoNgay));
+            do{
+            System.out.print("Nhap tien tang ca: ");
+            tienTangCa=Double.parseDouble(sc.nextLine());
+            } while(checkTienTangCa(tienTangCa));
             super.nhap();
         }
     
@@ -63,15 +63,20 @@ public class BangLuongChinhThuc extends BangLuong{
         }
     
     //kiem tra dieu kien
-        public boolean checkTienTangCa(){
+        public boolean checkTienTangCa(double tienTangCa){
             if(tienTangCa<0){
                 System.out.println("Can nhap lon hon bang 0");
+                return true;
+            }
+            if(soNgay==0 && tienTangCa > 0) {
+                System.out.println("Nhan vien chua di lam nen khong co tien tang ca");
+                System.out.println("Nhap tien tang ca bang 0");
                 return true;
             }
             return false;
         }
     
-        public boolean checkSoNgayLam(){
+        public static boolean checkSoNgayLam(int soNgay){
             if(soNgay<0){
                 System.out.println("Can nhap lon hon bang 0");
                 return true;
@@ -79,7 +84,7 @@ public class BangLuongChinhThuc extends BangLuong{
             return false;
         }
     
-        public boolean checkMucLuongTheoNgay(){
+        public static boolean checkMucLuongTheoNgay(double mucLuongTheoNgay){
             if(mucLuongTheoNgay<=0){
                 System.out.println("Can nhap lon hon 0");
                 return true;

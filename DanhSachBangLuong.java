@@ -88,7 +88,7 @@ public class DanhSachBangLuong implements DanhSach{
                 fw.write(s);
             }
             fw.close();
-            System.out.println("Da ghi du lieu vao file theo duong dan: "+fw);
+            System.out.println("Da ghi du lieu vao file theo duong dan: dataBL.txt");
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -140,16 +140,16 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap ma nhan vien can tao bang luong moi: ");
             id=Integer.parseInt(sc.nextLine());
-            if(id<1000) System.out.println("Ma nhan vien khong hop le!");
+            if(NhanVien.idKhongHopLe(id)) System.out.println("Ma nhan vien khong hop le!");
         }while(NhanVien.idKhongHopLe(id));
 
         //lay nhan vien tu dsnv theo id
-        ArrayList<BangLuong> kq;
+        BangLuong kq;
         BangLuong l;
         for(NhanVien nv: dsnv)
             if(nv.getID()==id){
-                kq = timMaNhanVien(id); //bang luong da ton tai chua (co san trong file dsbl.txt chua)
-                if(kq.size()==0){
+                kq = timIdNhanVien(id); //bang luong da ton tai chua (co san trong file dsbl.txt chua)
+                if(kq==null){
                     //them
                     if(nv instanceof NhanVienChinhThuc) l = new BangLuongChinhThuc();
                     else l = new BangLuongThoiVu();
@@ -178,9 +178,7 @@ public class DanhSachBangLuong implements DanhSach{
             System.out.println("========================");
             System.out.println("---MENU TIM KIEM---");
             System.out.println("|1.Tim theo ten nhan vien");
-            System.out.println("|2.Tim theo loai bang bang luong");
-            System.out.println("|3.Tim theo tien thuc lanh");
-            System.out.println("|4.Tim theo so tien da thanh toan");
+            System.out.println("|2.Tim theo ma nhan vien");
             System.out.println("Nhap so khac de thoat!!!");
             System.out.print("Nhap lua chon: ");
             luachon = Integer.parseInt(sc.nextLine());
@@ -190,202 +188,192 @@ public class DanhSachBangLuong implements DanhSach{
 
     @Override public void tim(){
         int luachon;
-        ArrayList<BangLuong> kq = new ArrayList<>(); //mang de hung ket qua
+        ArrayList<BangLuong> kq1 = new ArrayList<>(); //mang de hung ket qua
+        BangLuong kq2;
         do{
             luachon = menuTim();
             //switch tren lua chon
             switch (luachon){
-                case 1: kq = timTen(); break;
-                case 2: kq = timLoaiBangLuong(); break;
-                case 3: kq = timThucLanh(); break;
-                case 4: kq = timThanhToan(); break;
+                case 1: 
+                    kq1 = timTen(); 
+                    if(kq1.size()==0) System.out.println("Khong tim thay!!!");
+					else{
+						//xuat ket qua
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						for(BangLuong a : kq1){
+							a.xuat();
+							System.out.println("------------------------");
+						}
+					}
+					break;
+                case 2: 
+                    kq2 = timMaNhanVien(); 
+                    if(kq2==null) System.out.println("Khong tim thay!!!");
+					else{
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						kq2.xuat();
+						System.out.println("------------------------");
+					}
+                    break;
                 default: System.out.println("---Thoat---"); break;
             }
-            if(luachon >=1 && luachon<=4){
-            //kiem tra mang ket qua co rong khong
-                if(kq.size()==0)
-                    System.out.println("Khong tim thay!!!");
-                else{
-                    //xuat ket qua
-                    System.out.println("========================");
-                    System.out.println("Ket qua tim kiem :");
-                    for(BangLuong l : kq){
-                        l.xuat();
-                        System.out.println("------------------------");
-                    }
-                }
-            }
-        } while(luachon>=1 && luachon<=4);
+        } while(luachon>=1 && luachon<=2);
     }
     //cac ham tim kiem
-    private ArrayList<BangLuong> timMaNhanVien(int manv){
-        //tao mang moi chua ket qua vua tim duoc
-        ArrayList<BangLuong> kq = new ArrayList<>();
+    private BangLuong timIdNhanVien(int id){
         for(BangLuong l : dsbl){
-            if(l.getNhanVien().getID()==manv)
-                kq.add(l);
+            if(l.getNhanVien().getID()==id)
+                return l;
         }
-        return kq;
+        return null;
+    }
+    private BangLuong timMaNhanVien(){
+        int id;
+        do{
+            System.out.print("Nhap ma nhan vien: ");
+            id = Integer.parseInt(sc.nextLine());
+            if(NhanVien.idKhongHopLe(id)) System.out.println("Ma nhan vien khong hop le!");
+        }while(NhanVien.idKhongHopLe(id));
+
+        for(BangLuong l : dsbl){
+            if(l.getNhanVien().getID()==id)
+                return l;
+        }
+        return null;
     }
 
     private ArrayList<BangLuong> timTen(){
-        //tao mang moi chua ket qua vua tim duoc
-        ArrayList<BangLuong> kq = new ArrayList<>();
+        String ten;
+        ArrayList<BangLuong> kq = new ArrayList<BangLuong>();
         //note kiem tra dieu kien ten
-        System.out.print("Nhap ten nhan vien can tim: ");
-        String tenInput=sc.nextLine();
+        do{
+            System.out.print("Nhap ten nhan vien: ");
+            ten=sc.nextLine();
+            if(NhanVien.tenKhongHopLe(ten)) System.out.println("Ten nhan vien khong hop le!");
+        } while(NhanVien.tenKhongHopLe(ten));
+
         for(BangLuong l : dsbl){
-            if(l.getNhanVien().getTen().equalsIgnoreCase(tenInput))
+            if(l.getNhanVien().getTen().equalsIgnoreCase(ten))
                 kq.add(l);
         }
-        return kq;
-    }
-
-    private ArrayList<BangLuong> timLoaiBangLuong(){
-        //tao mang moi chua ket qua vua tim duoc
-        ArrayList<BangLuong> kq = new ArrayList<>();
-        int luachon;
-        do{
-            System.out.println("Chon bang luong cua loai nhan vien can tim");
-            System.out.println("1.Bang luong cua nhan vien chinh thuc");
-            System.out.println("2.Bang luong cua nhan vien thoi vu");
-            System.out.print("Nhap lua chon: ");
-            luachon = Integer.parseInt(sc.nextLine());
-            if(luachon!=1 && luachon!=2) System.out.println("Lua chon khong hop le!");
-        } while(luachon!=1 && luachon!=2);
-        if(luachon==1)
-            for(BangLuong l : dsbl)
-                if(l instanceof BangLuongChinhThuc) kq.add(l);
-        if(luachon==2)
-            for(BangLuong l : dsbl)
-                if(l instanceof BangLuongThoiVu) kq.add(l);
-        return kq;
-    }
-
-    private ArrayList<BangLuong> timThanhToan(){
-        //tao mang moi chua ket qua vua tim duoc
-        ArrayList<BangLuong> kq = new ArrayList<>();
-        double tien;
-        do{
-            System.out.print("Nhap so tien da thanh toan can tim: ");
-            tien = Double.parseDouble(sc.nextLine());
-            if(tien<0) System.out.println("So tien khong hop le!");
-        } while(tien<0);
-        for(BangLuong l : dsbl)
-            if(l.getThanhToan()==tien) 
-                kq.add(l);
-        return kq;
-    }
-
-    private ArrayList<BangLuong> timThucLanh(){
-        //tao mang moi chua ket qua vua tim duoc
-        ArrayList<BangLuong> kq = new ArrayList<>();
-        double tien;
-        do{
-            System.out.print("Nhap so tien thuc lanh can tim: ");
-            tien = Double.parseDouble(sc.nextLine());
-            if(tien<0) System.out.println("So tien khong hop le!");
-        } while(tien<0);
-        for(BangLuong l : dsbl)
-            if(l.getThucLanh()==tien) 
-                kq.add(l);
         return kq;
     }
 
 //xoa
     public void xoa(){
     int luachon;
+    ArrayList<BangLuong> kq1 = new ArrayList<>(); //mang de hung ket qua
+    BangLuong kq2;
     do{
         System.out.println("========================");
         System.out.println("---XOA KHOI DANH SACH---");
         luachon = menuTim();
-        ArrayList<BangLuong> kq = new ArrayList<>(); //mang de hung ket qua
         //switch tren lua chon
         switch (luachon){
-            case 1: kq = timTen(); break;
-            case 2: kq = timLoaiBangLuong(); break;
-            case 3: kq = timThucLanh();break;
-            case 4: kq = timThanhToan(); break;
+            case 1: 
+                    kq1 = timTen(); 
+                    if(kq1.size()==0) System.out.println("Khong tim thay bang luong can xoa!!!");
+					else{
+						//xuat ket qua
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						for(BangLuong a : kq1){
+							a.xuat();
+							System.out.println("------------------------");
+						}
+                        int stt;
+						do{
+							System.out.print("Chon STT cua bang luong muon xoa: ");
+							stt = Integer.parseInt(sc.nextLine());
+							if(stt<0 || stt>=kq1.size()) System.out.println("STT khong hop le!");
+						}
+						while(stt<0 || stt>=kq1.size());
+						dsbl.remove(kq1.get(stt));
+						System.out.println("Da xoa thanh cong!!!");
+					}
+					break;
+                case 2: 
+                kq2 = timMaNhanVien(); 
+                if(kq2==null) System.out.println("Khong tim thay!!!");
+                else{
+                    System.out.println("========================");
+                    System.out.println("Ket qua tim kiem :");
+                    kq2.xuat();
+                    System.out.println("------------------------");
+                    dsbl.remove(kq2);
+                    System.out.println("Da xoa thanh cong!!!");
+                }
+                break;
             default: System.out.println("---Thoat---"); break;
         }
-        if(luachon>=1 && luachon<=4){
-            //kiem tra mang ket qua co rong khong
-            if(kq.size()==0)
-                System.out.println("Khong tim thay noi dung can xoa!!!");
-            else{
-                System.out.println("========================");
-                //xuat ket qua
-                System.out.println("Ket qua tim kiem :");
-                for(BangLuong l : kq){
-                    l.xuat();
-                    System.out.println("------------------------");
-                }
-                //xoa
-                for(BangLuong l : kq)
-                    dsbl.remove(l);
-                System.out.println("Da xoa thanh cong!!!");
-            }
-        }
     }
-    while(luachon>=1 && luachon<=4);
+    while(luachon>=1 && luachon<=2);
 }
 
 //sua
     public void sua(){
         int luachon;
+        ArrayList<BangLuong> kq1 = new ArrayList<>(); //mang de hung ket qua
+        BangLuong kq2;
+        BangLuong k=null;
     do{
         System.out.println("========================");
         System.out.println("---SUA THONG TIN---");
         luachon = menuTim();
-        ArrayList<BangLuong> kq = new ArrayList<>(); //mang de hung ket qua
         //switch tren lua chon
         switch (luachon){
-            case 1: kq = timTen(); break;
-            case 2: kq = timLoaiBangLuong(); break;
-            case 3: kq = timThucLanh();break;
-            case 4: kq = timThanhToan(); break;
+            case 1: 
+                    kq1 = timTen(); 
+                    if(kq1.size()==0) System.out.println("Khong tim thay bang luong can sua!!!");
+					else{
+						//xuat ket qua
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						for(BangLuong a : kq1){
+							a.xuat();
+							System.out.println("------------------------");
+						}
+                        int stt;
+						do{
+							System.out.print("Chon STT cua bang luong muon sua: ");
+							stt = Integer.parseInt(sc.nextLine());
+							if(stt<0 || stt>=kq1.size()) System.out.println("STT khong hop le!");
+						}
+						while(stt<0 || stt>=kq1.size());
+						k=kq1.get(stt);
+					}
+					break;
+                    case 2: 
+                    kq2 = timMaNhanVien(); 
+                    if(kq2==null) System.out.println("Khong tim thay bang luong can sua!!!");
+                    else{
+                        System.out.println("========================");
+                        System.out.println("Ket qua tim kiem :");
+                        kq2.xuat();
+                        System.out.println("------------------------");
+                        k=kq2;
+                    }
+                    break;
             default: System.out.println("---Thoat---"); break;
         }
-
-        //kiem tra mang ket qua co rong khong
-        if(luachon>=1 && luachon<=4){
-            if(kq.size()==0)
-                System.out.println("Khong tim thay bang luong can sua!!!");
-            else{
-                //tim thay
-                //xuat ket qua
-                System.out.println("========================");
-                System.out.println("Ket qua tim kiem :");
-                int i = 0;
-                for(BangLuong l : kq){
-                    System.out.println((i++)+". "); l.xuat();
-                    System.out.println("------------------------");
-                }
-                //sua
-                //chon thu tu cua nhan vien can sua
-                int stt;
-                do{
-                    System.out.print("Chon STT cua nhan vien muon sua: ");
-                    stt = Integer.parseInt(sc.nextLine());
-                    if(stt<0 || stt>=kq.size()) System.out.println("STT khong hop le!");
-                }
-                while(stt<0 || stt>=kq.size());
                 
                 //***nhap lua chon thong tin muon sua***
                 int sua;
                 /*sua truc tiep tren dsbangluong*/
                 
-                BangLuong l = kq.get(stt);
+                if(k!=null){
                 do{
                 //menu thong tin can sua
                 System.out.println("========================");
                 System.out.println("---MENU SUA---");
-                if(l instanceof BangLuongChinhThuc){
+                if(k instanceof BangLuongChinhThuc){
                     System.out.println("|1.So ngay cong");
                     System.out.println("|2.Muc luong theo ngay");
                     System.out.println("|3.Tien tang ca");
                 }
-                else if(l instanceof BangLuongThoiVu){
+                else if(k instanceof BangLuongThoiVu){
                     System.out.println("|1.So gio lam");
                     System.out.println("|2.Muc luong theo gio");
                     System.out.println("|3.Tien thuong");
@@ -398,48 +386,41 @@ public class DanhSachBangLuong implements DanhSach{
                 //goi cac ham sua
                     switch(sua){
                         case 1: 
-                            if(l instanceof BangLuongChinhThuc){
-                                suaSoNgayCong((BangLuongChinhThuc) l);
+                            if(k instanceof BangLuongChinhThuc){
+                                suaSoNgayCong((BangLuongChinhThuc) k);
                             }
-                            else if(l instanceof BangLuongThoiVu)
-                                suaSoGio((BangLuongThoiVu) l);
+                            else if(k instanceof BangLuongThoiVu)
+                                suaSoGio((BangLuongThoiVu) k);
                             break;
                         case 2:
-                            if(l instanceof BangLuongChinhThuc)
-                                suaMucLuongTheoNgay((BangLuongChinhThuc) l);
-                            else if(l instanceof BangLuongThoiVu)
-                                suaMucLuongTheoGio((BangLuongThoiVu) l);
+                            if(k instanceof BangLuongChinhThuc)
+                                suaMucLuongTheoNgay((BangLuongChinhThuc) k);
+                            else if(k instanceof BangLuongThoiVu)
+                                suaMucLuongTheoGio((BangLuongThoiVu) k);
                             break;
                         case 3: 
-                            if(l instanceof BangLuongChinhThuc)
-                                suaTienTangCa((BangLuongChinhThuc) l);
-                            else if(l instanceof BangLuongThoiVu){
-                                suaTienThuong((BangLuongThoiVu) l);
+                            if(k instanceof BangLuongChinhThuc)
+                                suaTienTangCa((BangLuongChinhThuc) k);
+                            else if(k instanceof BangLuongThoiVu){
+                                suaTienThuong((BangLuongThoiVu) k);
                             }
                             break;
                         case 4: 
-                            do{
-                                System.out.print("Nhap so tien da thanh toan: ");
-                                l.setThanhToan(Double.parseDouble(sc.nextLine()));
-                            } while(l.checkThanhToan());
-                            break;
+                            suaThanhToan(k); break;
                         default: System.out.println("---Thoat---"); break;
                     }
-                    if(luachon>=1 && luachon<=4) System.out.println("Da sua thanh cong!!!");
-                }
-                while(sua>=1 && sua<=4);
-            }
+                    if(sua>=1 && sua<=4) System.out.println("Da sua thanh cong!!!");
+            } while(sua>=1 && sua<=4);
         }
-    }
-        while(luachon>=1 && luachon<=4);
-    }
+    } while(luachon>=1 && luachon<=4);
+}
 
     private void suaSoNgayCong(BangLuongChinhThuc l){
         int soNgay;
         do{
             System.out.print("Nhap so ngay lam: ");
             soNgay = Integer.parseInt(sc.nextLine());
-        } while(l.checkSoNgayLam());
+        } while(BangLuongChinhThuc.checkSoNgayLam(soNgay));
         l.setSoNgayLam(soNgay); //thue va thuc lanh da duoc set lai trong ham nay
     }
 
@@ -448,7 +429,7 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap muc luong theo ngay: ");
             mucLuongTheoNgay=Double.parseDouble(sc.nextLine());
-        }while(l.checkMucLuongTheoNgay());
+        }while(BangLuongChinhThuc.checkMucLuongTheoNgay(mucLuongTheoNgay));
         l.setMucLuongTheoNgay(mucLuongTheoNgay);
     }
 
@@ -457,7 +438,7 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap so gio lam: ");
             soGio=Integer.parseInt(sc.nextLine());
-        }while(l.checkSoGioLam());
+        }while(BangLuongThoiVu.checkSoGioLam(soGio));
         l.setSoGioLam(soGio);
     }
 
@@ -466,7 +447,7 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap muc luong theo gio: ");
             mucLuongTheoGio=Double.parseDouble(sc.nextLine());
-        }while(l.checkMucLuongTheoGio());
+        }while(BangLuongThoiVu.checkMucLuongTheoGio(mucLuongTheoGio));
         l.setMucLuongTheoGio(mucLuongTheoGio);
     }
 
@@ -475,7 +456,7 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap tien thuong: ");
             tienThuong=Double.parseDouble(sc.nextLine());
-        }while(l.checktienThuong());
+        }while(l.checktienThuong(tienThuong));
         l.setTienThuong(tienThuong);
     }
 
@@ -484,10 +465,18 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap tien tang ca: ");
             tienTangCa=Double.parseDouble(sc.nextLine());
-        } while(l.checkTienTangCa());
+        } while(l.checkTienTangCa(tienTangCa));
         l.setTienTangCa(tienTangCa);
     }
 
+    private void suaThanhToan(BangLuong l){
+        double thanhToan;
+        do{
+            System.out.print("Nhap tien thanh toan: ");
+            thanhToan=Double.parseDouble(sc.nextLine());
+        } while(l.checkThanhToan(thanhToan));
+        l.setThanhToan(thanhToan);
+    }
 //ham cap nhat
     public void xoaNhanVien(NhanVien nvCanXoa){
         int idCanXoa = nvCanXoa.getID();

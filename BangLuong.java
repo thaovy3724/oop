@@ -35,11 +35,11 @@ public abstract class BangLuong{
     public void nhap(){
         thue=tinhThue();
         thucLanh=tongLuong();
-        System.out.println("Thuc lanh: "+thucLanh);
+        System.out.println("thuc lanh: "+thucLanh);
         do{
         System.out.print("Nhap so tien da thanh toan: ");
         thanhToan=Double.parseDouble(sc.nextLine());
-        } while(checkThanhToan());
+        } while(checkThanhToan(thanhToan));
     }
 
 //xuat
@@ -54,12 +54,12 @@ public abstract class BangLuong{
     public abstract double tinhThue();
     
 //kiem tra dieu kien
-    public boolean checkThanhToan(){
-        if(thanhToan>=0 && thanhToan<=tongLuong()) return false;
+    public boolean checkThanhToan(double thanhToan){
+        if(thanhToan>=0 && thanhToan<=thucLanh) return false;
         if(thanhToan<0){
             System.out.println("Can nhap lon hon bang 0 !!!");
         }
-        else if(thanhToan>tongLuong()){
+        else if(thanhToan>thucLanh){
             System.out.println("Thanh toan nhieu hon tong bang luong");
         }
         return true;

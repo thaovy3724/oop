@@ -29,17 +29,17 @@ public class BangLuongThoiVu extends BangLuong{
     //nhap
         @Override public void nhap(){
             do{
-                System.out.print("Nhap tien thuong: ");
-                tienThuong=Double.parseDouble(sc.nextLine());
-            }while(checktienThuong());
-            do{
                 System.out.print("Nhap so gio lam: ");
                 soGio=Integer.parseInt(sc.nextLine());
-            }while(checkSoGioLam());
+            }while(checkSoGioLam(soGio));
             do{
                 System.out.print("Nhap muc luong theo gio: ");
                 mucLuongTheoGio=Double.parseDouble(sc.nextLine());
-            }while(checkMucLuongTheoGio());
+            }while(checkMucLuongTheoGio(mucLuongTheoGio));
+            do{
+                System.out.print("Nhap tien thuong: ");
+                tienThuong=Double.parseDouble(sc.nextLine());
+            }while(checktienThuong(tienThuong));
             super.nhap();
         }
     
@@ -61,15 +61,20 @@ public class BangLuongThoiVu extends BangLuong{
             return soGio*mucLuongTheoGio*8/100;
         }
     //kiem tra dieu kien
-        public boolean checktienThuong(){
+        public boolean checktienThuong(double tienThuong){
             if(tienThuong<0){
                 System.out.println("Can nhap lon hon bang 0 !!!");
+                return true;
+            }
+            if(soGio==0 && tienThuong>0) {
+                System.out.println("Nhan vien chua di lam nen khong co tien thuong");
+                System.out.println("Nhap tien thuong bang 0");
                 return true;
             }
             return false;
         }
     
-        public boolean checkSoGioLam(){
+        public static boolean checkSoGioLam(int soGio){
             if(soGio<0){
                 System.out.println("Can nhap lon hon bang 0 !!!");
                 return true;
@@ -77,7 +82,7 @@ public class BangLuongThoiVu extends BangLuong{
             return false;
         }
     
-        public boolean checkMucLuongTheoGio(){
+        public static boolean checkMucLuongTheoGio(double mucLuongTheoGio){
             if(mucLuongTheoGio<=0){
                 System.out.println("Can nhap lon hon 0 !!!");
                 return true;

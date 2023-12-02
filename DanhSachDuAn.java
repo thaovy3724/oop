@@ -97,7 +97,7 @@ public void docFile() {
 					}
 					f.close();
 					//note
-					//System.out.println("Da ghi du lieu vao file theo duong dan: "+f);
+					System.out.println("Da ghi du lieu vao file theo duong dan: dataDA.txt");
 				}catch (Exception e) {
 					System.out.println(e);
 				}
@@ -221,9 +221,7 @@ public void docFile() {
 			System.out.println("========================");
 			System.out.println("---MENU TIM KIEM---");
 			System.out.println("|1. Tim kiem theo ten du an");
-			System.out.println("|2. Tim kiem theo ten phong ban");
-			System.out.println("|3. Tim kiem theo ten nhan vien");
-			System.out.println("|4. Tim kiem theo loi nhuan");	
+			System.out.println("|2. Tim kiem theo ma du an");	
 			System.out.println("Nhap so khac de thoat!!!");
 			System.out.print("Nhap lua chon: ");
 			luachon = Integer.parseInt(sc.nextLine());
@@ -234,32 +232,38 @@ public void docFile() {
 	//Tim kiem
 	@Override public void tim() { // void : khong tra ve
 		int luachon;
-        ArrayList<DuAn> kq = new ArrayList<>(); //mang de hung ket qua
+        ArrayList<DuAn> kq1 = new ArrayList<>(); //mang de hung ket qua
+		DuAn kq2 = new DuAn();
 		do{
             luachon = menuTim();
             //switch tren lua chon
             switch (luachon){
-                case 1: kq = timTenDuAn(); break;
-				case 2: kq = timTenPhongBan(); break;
-				case 3: kq = timTenNhanVien(); break;
-				case 4: kq = timLoiNhuan(); break;
-				default: System.out.println("---Thoat---"); break;
-			}
-			if(luachon >=1 && luachon<=4){
-			//kiem tra mang ket qua co rong khong
-				if(kq.size()==0)
-					System.out.println("Khong tim thay!!!");
-				else{
-					//xuat ket qua
-					System.out.println("========================");
-					System.out.println("Ket qua tim kiem :");
-					for(DuAn a : kq){
-						a.xuat();
+                case 1: 
+					kq1 = timTenDuAn(); 
+					if(kq1.size()==0) System.out.println("Khong tim thay!!!");
+					else{
+						//xuat ket qua
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						for(DuAn a : kq1){
+							a.xuat();
+							System.out.println("------------------------");
+						}
+					}
+					break;
+				case 2: 
+					kq2 = timMaDuAn(); 
+					if(kq2==null) System.out.println("Khong tim thay!!!");
+					else{
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						kq2.xuat();
 						System.out.println("------------------------");
 					}
-				}
+					break;
+				default: System.out.println("---Thoat---"); break;
 			}
-        } while(luachon>=1 && luachon<=4);
+        } while(luachon>=1 && luachon<=2);
 	}
 
 	// Tim theo ten du an
@@ -277,98 +281,80 @@ public void docFile() {
 		}
 		return kq;
 	}
-	
-	// Tim theo ten phong ban
-	
-	private ArrayList<DuAn> timTenPhongBan() {
-		ArrayList <DuAn> kq = new ArrayList<DuAn>();
-		String tenCanTim;
+
+	private DuAn timMaDuAn(){
+		int id;
 		do{
-			System.out.print("Nhap ten phong ban can tim: ");
-			tenCanTim = sc.nextLine();
-			if(tenCanTim.equalsIgnoreCase("")) System.out.println("Ten khong hop le!");
-		}while(tenCanTim.equalsIgnoreCase(""));
-		DuAnPhongBan da;
-		for(DuAn a : ds) {  // Duan : kieu du lieu, a: bien
-			if( a instanceof DuAnPhongBan) { // kt xem co phai thuoc du an phong ban ko
-				da = (DuAnPhongBan) a;
-				if(da.getTenPb().equalsIgnoreCase(tenCanTim)) {
-					kq.add(a);
-				}
-			}
-		}
-		return kq;
-	}
-	
-	// Tim theo ten nhan vien
-	private ArrayList<DuAn> timTenNhanVien(){
-		ArrayList<DuAn> kq = new ArrayList<DuAn>();
-		System.out.print("Nhap ten nhan vien can tim: ");
-		String tenCanTim = sc.nextLine();
-		DuAnCaNhan da;
+			System.out.print("Nhap ma du an can tim: ");
+			id = Integer.parseInt(sc.nextLine());
+		}while(DuAn.checkMaPhongBan(id));
 		for(DuAn a : ds) {
-			if(a instanceof DuAnCaNhan) {
-				da = (DuAnCaNhan) a;   // ép kiểu
-				String ten = da.getNhanVien().getTen();
-				if(ten.equalsIgnoreCase(tenCanTim)) {
-					kq.add(da);
-				}
+			if(a.getMaDuAn()==id) {  
+				return a;
 			}
 		}
-		return kq;
-	}
-		
-	
-	//Tim theo loi nhuan
-	private ArrayList<DuAn> timLoiNhuan(){
-		ArrayList<DuAn> kq = new ArrayList<DuAn>();
-		System.out.print("Nhap loi nhuan can tim: ");
-		double loiNhuanCanTim = Double.parseDouble(sc.nextLine());
-		for(DuAn a : ds) 
-			if(a.getLoiNhuan() == loiNhuanCanTim) 
-				kq.add(a);
-		return kq;
+		return null;
 	}
 	
 	// Xoa
 	public void xoa() {
 		int luachon;
+		ArrayList<DuAn> kq1 = new ArrayList<>(); //mang de hung ket qua
+		DuAn kq2 = new DuAn();
 		do{
 			System.out.println("========================");
 			System.out.println("---XOA KHOI DANH SACH---");
 			luachon = menuTim();
-			ArrayList<DuAn> kq = new ArrayList<>(); //mang de hung ket qua
 			//switch tren lua chon
 			switch (luachon){
-				case 1: kq = timTenDuAn(); break;
-				case 2: kq = timTenPhongBan(); break;
-				case 3: kq = timTenNhanVien(); break;
-				case 4: kq = timLoiNhuan(); break;
-			}
-	
-			//kiem tra mang ket qua co rong khong
-			if(kq.size()==0)
-				System.out.println("Khong tim thay noi dung can xoa!!!");
-			else{
-				System.out.println("========================");
-				//xuat ket qua
-				System.out.println("Ket qua tim kiem :");
-				for(DuAn a : kq){
-					a.xuat();
-					System.out.println("------------------------");
-				}
-				//xoa
-				for(DuAn a : kq)
-					ds.remove(a);
-				System.out.println("Da xoa thanh cong!!!");
-			}
-		} while(luachon>=1 && luachon<=4);
+				case 1: 
+					kq1 = timTenDuAn(); 
+					if(kq1.size()==0) System.out.println("Khong tim thay noi dung can xoa!!!");
+					else{
+						//xuat ket qua
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						int i=0;
+						for(DuAn a : kq1){
+							System.out.println((i++)+".");
+							a.xuat();
+							System.out.println("------------------------");
+						}
+						int stt;
+						do{
+							System.out.print("Chon STT cua du an muon xoa: ");
+							stt = Integer.parseInt(sc.nextLine());
+							if(stt<0 || stt>=kq1.size()) System.out.println("STT khong hop le!");
+						}
+						while(stt<0 || stt>=kq1.size());
+						ds.remove(kq1.get(stt));
+						System.out.println("Da xoa thanh cong!!!");
+					}
+					break;
+				case 2: 
+					kq2 = timMaDuAn(); 
+					if(kq2==null) System.out.println("Khong tim thay noi dung can xoa!!!");
+					else{
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						kq2.xuat();
+						System.out.println("------------------------");
+						ds.remove(kq2);
+						System.out.println("Da xoa thanh cong!!!");
+					}
+					break;
+				default: System.out.println("---Thoat---"); break;
+			} 
+		} while(luachon>=1 && luachon<=2);
 	}
 		
 	
 	// Sua
 	public void sua() {
 		int luachon;
+		ArrayList<DuAn> kq1 = new ArrayList<>(); //mang de hung ket qua
+		DuAn kq2 = new DuAn();
+		DuAn k = null;
 		do{
 			System.out.println("========================");
 			System.out.println("---SUA THONG TIN---");
@@ -376,39 +362,46 @@ public void docFile() {
 			ArrayList<DuAn> kq = new ArrayList<>(); //mang de hung ket qua
 			//switch tren lua chon
 			switch (luachon){
-				case 1: kq = timTenDuAn(); break;
-				case 2: kq = timTenPhongBan(); break;
-				case 3: kq = timTenNhanVien(); break;
-				case 4: kq = timLoiNhuan(); break;
-        	}
-			//kiem tra mang ket qua co rong khong
-			if(luachon>=1 && luachon<=4){
-				if(kq.size()==0)
-					System.out.println("Khong tim thay du an can sua!!!");
-				else{
-					//tim thay
-					//xuat ket qua
-					System.out.println("========================");
-					System.out.println("Ket qua tim kiem :");
-					int i = 0;
-					for(DuAn a : kq){
-						System.out.println((i++)+". "); a.xuat();
+				case 1: 
+					kq1 = timTenDuAn(); 
+					if(kq1.size()==0) System.out.println("Khong tim thay noi dung can sua!!!");
+					else{
+						//xuat ket qua
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						int i=0;
+						for(DuAn a : kq1){
+							System.out.println((i++)+".");
+							a.xuat();
+							System.out.println("------------------------");
+						}
+						int stt;
+						do{
+							System.out.print("Chon STT cua du an muon sua: ");
+							stt = Integer.parseInt(sc.nextLine());
+							if(stt<0 || stt>=kq1.size()) System.out.println("STT khong hop le!");
+						} while(stt<0 || stt>=kq1.size());
+						k=kq1.get(stt);
+					}
+					break;
+				case 2: 
+					kq2 = timMaDuAn(); 
+					if(kq2==null) System.out.println("Khong tim thay noi dung can sua!!!");
+					else{
+						System.out.println("========================");
+						System.out.println("Ket qua tim kiem :");
+						kq2.xuat();
 						System.out.println("------------------------");
+						k=kq2;
 					}
-					//sua
-					//chon thu tu cua nhan vien can sua
-					int stt;
-					do{
-						System.out.print("Chon STT cua du an muon sua: ");
-						stt = Integer.parseInt(sc.nextLine());
-					}
-					while(stt<0 || stt>=kq.size());
-					
+					break;
+				default: System.out.println("---Thoat---"); break;
+        	}
 					//***nhap lua chon thong tin muon sua***
 					int sua;
 					/*sua truc tiep tren dsbangluong*/
 					
-					DuAn da = kq.get(stt);
+					if(k!=null){
 					do{
 						System.out.println("========================");
 						System.out.println("---MENU SUA---");
@@ -425,31 +418,30 @@ public void docFile() {
 								System.out.print("Nhap ten du an moi: ");
 								tenDuAn = sc.nextLine();
 							} while(DuAn.checkTenDuAn(tenDuAn));
-							da.setTenDuAn(tenDuAn);
+							k.setTenDuAn(tenDuAn);
 							break;
 						case 2:
 							System.out.print("Nhap loi nhuan moi: ");
 							Double loiNhuan = Double.parseDouble(sc.nextLine());
-							da.setLoiNhuan(loiNhuan);
+							k.setLoiNhuan(loiNhuan);
 							break;
 						case 3:
 							Double nganSach;
 							do{
 								System.out.print("Nhap ngan sach moi: ");
 								nganSach = Double.parseDouble(sc.nextLine());
-							} while(nganSach<=0);
-							da.setNganSach(nganSach);
+							} while(k.checkNganSach(nganSach));
+							k.setNganSach(nganSach);
 							break;
 						default: System.out.println("---Thoat---"); break;
 						}
-						if(luachon>=1 && luachon<=3){
+						if(sua>=1 && sua<=3){
 							System.out.println("Da sua thanh cong!!!");
 						}
 					}
 					while(sua>=1 && sua<=3);
 				}
-			}
-		}while(luachon>=1 && luachon<=4);
+		}while(luachon>=1 && luachon<=2);
 }
 //ham cap nhat
 	/*
