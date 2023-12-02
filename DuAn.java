@@ -33,15 +33,17 @@ public class DuAn {
 	
 	// nhập
 	public void nhap() {
+		do{
 		System.out.print("Nhap ten du an : ");
 	 	tenDuAn = sc.nextLine();
-	 	
+		} while(checkTenDuAn(tenDuAn));
+
 		System.out.print("Nhap loi nhuan: "); //Lợi nhuận có thể âm, = 0, > 0 nên ko kt điều kiện
 	 	loiNhuan = Double.parseDouble(sc.nextLine());
 
 	 	do{
-	 	System.out.print("Nhap ngan sach: ");
-	 	nganSach = Double.parseDouble(sc.nextLine());
+			System.out.print("Nhap ngan sach: ");
+			nganSach = Double.parseDouble(sc.nextLine());
 		} while(checkNganSach());
 		
         maDuAn = idMDA++;
@@ -76,7 +78,6 @@ public class DuAn {
 	}
 	public void setNganSach(double nganSach) {
 		this.nganSach = nganSach;
-		checkNganSach();
 	}
 	public double getNganSach() {
 		return nganSach;
@@ -92,4 +93,16 @@ public class DuAn {
 		} 
 		return false;
 	}
+
+	public static boolean checkTenDuAn(String tenDuAn) {
+        // Biểu thức chính quy để kiểm tra tên dự án không để trống và có thể chứa số
+        String regex = "^(?=.*[a-zA-Z])([a-zA-Z0-9\\s]+)$";
+
+        // Kiểm tra xem chuỗi có phù hợp hay không
+        if(!tenDuAn.matches(regex)){
+			System.out.println("Ten khong hop le!");
+			return true;
+		}
+		return false;
+    }
 }
