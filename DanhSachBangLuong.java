@@ -140,7 +140,7 @@ public class DanhSachBangLuong implements DanhSach{
         do{
             System.out.print("Nhap ma nhan vien can tao bang luong moi: ");
             id=Integer.parseInt(sc.nextLine());
-            if(id<1000) System.out.println("Ma nhan vien khong hop le!");
+            if(NhanVien.idKhongHopLe(id)) System.out.println("Ma nhan vien khong hop le!");
         }while(NhanVien.idKhongHopLe(id));
 
         //lay nhan vien tu dsnv theo id
