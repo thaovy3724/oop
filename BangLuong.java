@@ -32,7 +32,8 @@ public abstract class BangLuong{
     }
 
 //nhap
-    public void nhap(){
+    public void nhap(NhanVien nv){
+        this.nv=nv;
         thue=tinhThue();
         thucLanh=tongLuong();
         System.out.println("thuc lanh: "+thucLanh);
@@ -60,7 +61,7 @@ public abstract class BangLuong{
             System.out.println("Can nhap lon hon bang 0 !!!");
         }
         else if(thanhToan>thucLanh){
-            System.out.println("Thanh toan nhieu hon tong bang luong");
+            System.out.println("Thanh toan nhieu hon tong bang luong!!!");
         }
         return true;
     }

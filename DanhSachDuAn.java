@@ -118,24 +118,13 @@ public void docFile() {
 			System.out.print("Nhap lua chon: ");
         	luachon=Integer.parseInt(sc.nextLine());
 			switch(luachon) {
-				case 1:
-					them(dsnv, dspb);  // người dùng nhập 1 sẽ gọi hàm thêm
-					break;
-				case 2:
-					tim();
-					break;
-				case 3:
-					xoa();
-					break;
-				case 4:
-					sua();
-					break;
-				case 5:
-					xuat();
-					break;
+				case 1: them(dsnv, dspb); break;
+				case 2:tim(); break;
+				case 3:xoa(); break;
+				case 4:sua(); break;
+				case 5: xuat(); break;
 				default:  // nhập số khác sẽ dô default xuất ra dòng thóat danh sách....
-					System.out.println("---Thoat danh sach du an---");
-					break;
+					System.out.println("---Thoat danh sach du an---"); break;
 			}	
 		}
 		while(luachon>=1 && luachon<=5);
@@ -210,6 +199,7 @@ public void docFile() {
 		}
 		System.out.println("Da them thanh cong!!!");
 	}
+	
 	// MENU Tim Kiem
 	public int menuTim() {
 		int luachon;
@@ -245,7 +235,9 @@ public void docFile() {
 						//xuat ket qua
 						System.out.println("========================");
 						System.out.println("Ket qua tim kiem :");
+						int i=0;
 						for(DuAn a : kq1){
+							System.out.println((i++)+".");
 							a.xuat();
 							System.out.println("------------------------");
 						}
@@ -287,7 +279,7 @@ public void docFile() {
 		do{
 			System.out.print("Nhap ma du an can tim: ");
 			id = Integer.parseInt(sc.nextLine());
-		}while(DuAn.checkMaPhongBan(id));
+		}while(DuAn.checkMaDuAn(id));
 		for(DuAn a : ds) {
 			if(a.getMaDuAn()==id) {  
 				return a;
@@ -309,7 +301,7 @@ public void docFile() {
 			switch (luachon){
 				case 1: 
 					kq1 = timTenDuAn(); 
-					if(kq1.size()==0) System.out.println("Khong tim thay noi dung can xoa!!!");
+					if(kq1.size()==0) System.out.println("Khong tim thay du an can xoa!!!");
 					else{
 						//xuat ket qua
 						System.out.println("========================");
@@ -333,7 +325,7 @@ public void docFile() {
 					break;
 				case 2: 
 					kq2 = timMaDuAn(); 
-					if(kq2==null) System.out.println("Khong tim thay noi dung can xoa!!!");
+					if(kq2==null) System.out.println("Khong tim thay du an can xoa!!!");
 					else{
 						System.out.println("========================");
 						System.out.println("Ket qua tim kiem :");
@@ -359,12 +351,10 @@ public void docFile() {
 			System.out.println("========================");
 			System.out.println("---SUA THONG TIN---");
 			luachon = menuTim();
-			ArrayList<DuAn> kq = new ArrayList<>(); //mang de hung ket qua
-			//switch tren lua chon
 			switch (luachon){
 				case 1: 
 					kq1 = timTenDuAn(); 
-					if(kq1.size()==0) System.out.println("Khong tim thay noi dung can sua!!!");
+					if(kq1.size()==0) System.out.println("Khong tim thay du an can sua!!!");
 					else{
 						//xuat ket qua
 						System.out.println("========================");
@@ -386,7 +376,7 @@ public void docFile() {
 					break;
 				case 2: 
 					kq2 = timMaDuAn(); 
-					if(kq2==null) System.out.println("Khong tim thay noi dung can sua!!!");
+					if(kq2==null) System.out.println("Khong tim thay du an can sua!!!");
 					else{
 						System.out.println("========================");
 						System.out.println("Ket qua tim kiem :");

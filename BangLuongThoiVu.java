@@ -27,7 +27,7 @@ public class BangLuongThoiVu extends BangLuong{
             this.mucLuongTheoGio=soGio;
         }
     //nhap
-        @Override public void nhap(){
+        @Override public void nhap(NhanVien nv){
             do{
                 System.out.print("Nhap so gio lam: ");
                 soGio=Integer.parseInt(sc.nextLine());
@@ -40,7 +40,7 @@ public class BangLuongThoiVu extends BangLuong{
                 System.out.print("Nhap tien thuong: ");
                 tienThuong=Double.parseDouble(sc.nextLine());
             }while(checktienThuong(tienThuong));
-            super.nhap();
+            super.nhap(nv);
         }
     
     //xuat

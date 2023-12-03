@@ -106,9 +106,9 @@ public class DuAn {
 		return false;
     }
 	//note
-	public static boolean checkMaPhongBan(int id) {
+	public static boolean checkMaDuAn(int id) {
 		if(id<=1000 || id>9999){
-			System.out.println("Ma phong ban co 4 chu so");
+			System.out.println("Ma du an khong hop le!");
 			return true;
 		} 
 		return false;

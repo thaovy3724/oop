@@ -27,7 +27,7 @@ public class BangLuongChinhThuc extends BangLuong{
         }
         
     //nhap
-        @Override public void nhap(){
+        public void nhap(NhanVien nv){
             do{
                 System.out.print("Nhap so ngay lam: ");
                 soNgay = Integer.parseInt(sc.nextLine());
@@ -40,7 +40,7 @@ public class BangLuongChinhThuc extends BangLuong{
             System.out.print("Nhap tien tang ca: ");
             tienTangCa=Double.parseDouble(sc.nextLine());
             } while(checkTienTangCa(tienTangCa));
-            super.nhap();
+            super.nhap(nv);
         }
     
     //xuat
